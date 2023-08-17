@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mobile-device-motion</title>
+    <script src="http://192.168.11.47/mobileDeviceMotion/mobileDeviceMotion.umd.js"></script>
+    <style>
+        button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="numberX"></div>
+    <div id="numberY"></div>
+    <div id="numberZ"></div>
+
+    <button id="onMotion">开始监听</button>
+
+    <button id="removeMotion">取消监听</button>
+
+    <script>
+        const mobileDeviceMotionObj = new mobileDeviceMotion({
+            minResponseMotion: 10,
+            callback(motion) {
+                console.log("motion:", motion);
+                devTest(motion)
+            },
+            onSourceUpdate(e) {
+                console.log("update:", e);
+            }
+        })
+
+        document.querySelector("#onMotion").onclick = function () {
+            mobileDeviceMotionObj.init()
+        }
+
+        document.querySelector("#removeMotion").onclick = function () {
+            mobileDeviceMotionObj.removeEvent()
+        }
+
+        function devTest(motion) {
+            const numberX = document.querySelector("#numberX");
+            const numberY = document.querySelector("#numberY");
+            const numberZ = document.querySelector("#numberZ");
+            numberX.innerHTML = `x ===>  ${motion.x.toFixed(5)}`;
+            numberY.innerHTML = `y ===>  ${motion.y.toFixed(5)}`;
+            numberZ.innerHTML = `z ===>  ${motion.z.toFixed(5)}`;
+        }
+    </script>
+</body>
+
+</html>
