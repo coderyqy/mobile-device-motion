@@ -3,18 +3,16 @@ import { InitOptionsType, MotionType, ResInfo } from "./lib/type";
 export default class MobileDeviceMotion {
   private minResponseMotion = 10; // 当用户的两次加速度差值大于这个幅度，判定用户摇动了设备
 
-  private readonly lastX = 0;
-  private readonly lastY = 0;
-  private readonly lastZ = 0;
+  private isStart = false; // 是否已经开始监听运动
 
   private callback: (motion: MotionType) => void; // 用户的回调函数
-  private onSourceUpdate: (event: DeviceMotionEventAcceleration | null) => void;
+  private onChange: (event: DeviceMotionEventAcceleration | null) => void;
   private handleMotion = (event: DeviceMotionEvent) => {};
 
   constructor(options: InitOptionsType) {
     this.minResponseMotion = options.minResponseMotion;
     this.callback = options.callback;
-    this.onSourceUpdate = options.onSourceUpdate;
+    this.onChange = options.onChange;
   }
 
   private init(): ResInfo {
@@ -28,33 +26,41 @@ export default class MobileDeviceMotion {
         msg: "设备不支持DeviceMotion或将http切换到https或切换到localhost环境",
       };
     } else {
-      this.handleMotion = (event: DeviceMotionEvent) => {
-        let motion = event.acceleration;
+      if (!this.isStart) {
+        this.handleMotion = (event: DeviceMotionEvent) => {
+          let motion = event.acceleration;
 
-        this.onSourceUpdate && this.onSourceUpdate(motion);
+          this.onChange && this.onChange(motion);
 
-        const { x, y, z } = motion as DeviceMotionEventAcceleration;
+          const { x, y, z } = motion as DeviceMotionEventAcceleration;
 
-        let countMotion =
-          Math.abs(x! - this.lastX) +
-          Math.abs(y! - this.lastY) +
-          Math.abs(z! - this.lastZ);
+          let countMotion = Math.abs(x!) + Math.abs(y!) + Math.abs(z!);
 
-        if (countMotion >= this.minResponseMotion) {
-          this.callback({ x, y, z });
-        }
-      };
+          if (countMotion >= this.minResponseMotion) {
+            this.callback({ x, y, z });
+          }
+        };
 
-      window.addEventListener("devicemotion", this.handleMotion);
+        window.addEventListener("devicemotion", this.handleMotion);
 
-      return {
-        status: 1,
-        msg: "初始化成功",
-      };
+        this.isStart = true;
+
+        return {
+          status: 1,
+          msg: "初始化成功",
+        };
+      } else {
+        console.warn("Warn: 你已初始化，请勿重复触发");
+        return {
+          status: 0,
+          msg: "你已初始化，请勿重复触发",
+        };
+      }
     }
   }
 
   private removeEvent() {
     window.removeEventListener("devicemotion", this.handleMotion, false);
+    this.isStart = false;
   }
 }

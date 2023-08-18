@@ -6,7 +6,7 @@ export interface ResInfo {
 export interface InitOptionsType {
   minResponseMotion: number;
   callback: (motion: MotionType) => void;
-  onSourceUpdate: (event: DeviceMotionEventAcceleration | null) => void;
+  onChange: (event: DeviceMotionEventAcceleration | null) => void;
 }
 
 export interface MotionType {
