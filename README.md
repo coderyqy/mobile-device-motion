@@ -46,6 +46,11 @@ document.querySelector("#removeMotion").onclick = function () {
 };
 ```
 
+# 启动和移除监听
+
+- `init()` 启动监听，返回 `{status: number, msg: string}`
+- `removeEvent()` 移除监听函数 `{status: number, msg: string}`
+
 # 参数
 
 ## callback(motion) {}
