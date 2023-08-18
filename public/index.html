@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mobile-device-motion</title>
     <script src="http://192.168.11.47/mobileDeviceMotion/mobileDeviceMotion.umd.js"></script>
+    <script src="http://192.168.11.47/mobileDeviceMotion/vconsole.min.js"></script>
+
+    <script>
+        new VConsole()
+    </script>
+
     <style>
         button {
             margin-top: 20px;
@@ -24,13 +30,12 @@
 
     <script>
         const mobileDeviceMotionObj = new mobileDeviceMotion({
-            minResponseMotion: 10,
+            minResponseMotion: 2,
             callback(motion) {
-                console.log("motion:", motion);
                 devTest(motion)
             },
-            onSourceUpdate(e) {
-                console.log("update:", e);
+            onChange(e) {
+                console.log("change:", e);
             }
         })
 
