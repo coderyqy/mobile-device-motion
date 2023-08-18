@@ -1,6 +1,6 @@
 {
   "name": "mobile-device-motion",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "监听设备的位置移动加速度，手机摇一摇功能",
   "type": "module",
   "types": "dist/main.d.ts",
