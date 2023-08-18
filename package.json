@@ -1,7 +1,7 @@
 {
   "name": "mobile-device-motion",
   "version": "1.0.0",
-  "description": "",
+  "description": "监听设备的位置移动加速度，手机摇一摇功能",
   "type": "module",
   "types": "dist/main.d.ts",
   "main": "dist/mobileDeviceMotion.common.js",
@@ -11,6 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c"
   },
+  "repository": "https://github.com/coderyqy/mobile-device-motion.git",
   "keywords": [
     "devicemotion",
     "DeviceMotionEvent",
@@ -35,6 +36,7 @@
     "/dist"
   ],
   "dependencies": {
-    "@rollup/plugin-babel": "^6.0.3"
+    "@rollup/plugin-babel": "^6.0.3",
+    "typescript": "^5.1.6"
   }
 }
