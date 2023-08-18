@@ -15,7 +15,7 @@ export default class MobileDeviceMotion {
     this.onChange = options.onChange;
   }
 
-  private init(): ResInfo {
+  public init(): ResInfo {
     if (!window.DeviceMotionEvent) {
       console.error(
         "Error: 初始化失败\nTips: \n可以尝试切换到https协议\n或者\n切换到localhost环境."
@@ -47,7 +47,7 @@ export default class MobileDeviceMotion {
 
         return {
           status: 1,
-          msg: "初始化成功",
+          msg: "init success",
         };
       } else {
         console.warn("Warn: 你已初始化，请勿重复触发");
@@ -59,8 +59,12 @@ export default class MobileDeviceMotion {
     }
   }
 
-  private removeEvent() {
+  public removeEvent() {
     window.removeEventListener("devicemotion", this.handleMotion, false);
     this.isStart = false;
+    return {
+      status: 1,
+      msg: "remove success",
+    };
   }
 }
